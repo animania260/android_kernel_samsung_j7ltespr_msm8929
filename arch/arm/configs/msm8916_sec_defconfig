@@ -695,3 +695,9 @@ CONFIG_ALUCARD_HOTPLUG=y
 CONFIG_BRICKED_HOTPLUG=y
 CONFIG_MSM_HOTPLUG=y
 ##############################################################################
+
+# Sound Control
+#
+CONFIG_SOUND_CONTROL_HAX_3_GPL=y
+#
+#
