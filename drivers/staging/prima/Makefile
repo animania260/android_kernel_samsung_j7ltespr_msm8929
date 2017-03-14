@@ -1,47 +1,7 @@
-# We can build either as part of a standalone Kernel build or part
-# of an Android build.  Determine which mechanism is being used
+MODNAME := wlan
+WLAN_ROOT := drivers/staging/prima
 
-KERNEL_BUILD := 1
-
-ifeq ($(KERNEL_BUILD),1)
-	# These are provided in Android-based builds
-	# Need to explicitly define for Kernel-based builds
-	MODNAME := wlan
-	WLAN_ROOT := drivers/staging/prima
-endif
-
-ifeq ($(KERNEL_BUILD), 0)
-	# These are configurable via Kconfig for kernel-based builds
-	# Need to explicitly configure for Android-based builds
-
-	#Flag to enable BlueTooth AMP feature
-	CONFIG_PRIMA_WLAN_BTAMP := n
-
-	#Flag to enable Legacy Fast Roaming(LFR)
-	CONFIG_PRIMA_WLAN_LFR := y
-
-	#JB kernel has PMKSA patches, hence enabling this flag
-	CONFIG_PRIMA_WLAN_OKC := y
-
-	# JB kernel has CPU enablement patches, so enable
-	CONFIG_PRIMA_WLAN_11AC_HIGH_TP := y
-
-	#Flag to enable TDLS feature
-	CONFIG_QCOM_TDLS := y
-
-	#Flag to enable Fast Transition (11r) feature
-	CONFIG_QCOM_VOWIFI_11R := y
-
-	#Flag to enable Protected Managment Frames (11w) feature
-	ifneq ($(CONFIG_PRONTO_WLAN),)
-	CONFIG_WLAN_FEATURE_11W := y
-	endif
-
-	#Flag to enable new Linux Regulatory implementation
-	CONFIG_ENABLE_LINUX_REG := y
-
-endif
-
+# Feature flags which are not (currently) configurable via Kconfig
 # To enable CONFIG_QCOM_ESE_UPLOAD, dependent config
 # CONFIG_QCOM_ESE must be enabled.
 CONFIG_QCOM_ESE := n
@@ -60,9 +20,6 @@ PANIC_ON_BUG := 1
 
 #Re-enable wifi on WDI timeout
 RE_ENABLE_WIFI_ON_WDI_TIMEOUT := 0
-
-#Measure Roam Delay
-MEASURE_ROAM_TIME_DELAY := 0
 
 ifeq ($(CONFIG_CFG80211),y)
 HAVE_CFG80211 := 1
@@ -300,6 +257,9 @@ SME_P2P_OBJS = $(SME_SRC_DIR)/p2p/p2p_Api.o
 
 SME_RRM_OBJS := $(SME_SRC_DIR)/rrm/sme_rrm.o
 
+SME_NAN_OBJS = $(SME_SRC_DIR)/nan/nan_Api.o
+
+
 SME_OBJS :=	$(SME_BTC_OBJS) \
 		$(SME_CCM_OBJS) \
 		$(SME_CMN_OBJS) \
@@ -308,7 +268,8 @@ SME_OBJS :=	$(SME_BTC_OBJS) \
 		$(SME_P2P_OBJS) \
 		$(SME_PMC_OBJS) \
 		$(SME_QOS_OBJS) \
-		$(SME_RRM_OBJS)
+		$(SME_RRM_OBJS) \
+		$(SME_NAN_OBJS)
 
 ############ SVC ############
 SVC_DIR :=	CORE/SVC
@@ -502,6 +463,7 @@ OBJS :=		$(BAP_OBJS) \
 		$(WDI_OBJS)
 
 EXTRA_CFLAGS += $(INCS)
+EXTRA_CFLAGS += -fno-pic
 
 CDEFINES :=	-DANI_BUS_TYPE_PLATFORM=1 \
 		-DANI_LITTLE_BYTE_ENDIAN \
@@ -593,15 +555,7 @@ endif
 #normally, TDLS negative behavior is not needed
 ifeq ($(CONFIG_QCOM_TDLS),y)
 CDEFINES += -DFEATURE_WLAN_TDLS
-ifeq ($(BUILD_DEBUG_VERSION),1)
-CDEFINES += -DWLAN_FEATURE_TDLS_DEBUG
-endif
 CDEFINES += -DCONFIG_TDLS_IMPLICIT
-#CDEFINES += -DFEATURE_WLAN_TDLS_NEGATIVE
-#Code under FEATURE_WLAN_TDLS_INTERNAL is ported from volans, This code
-#is not tested only verifed that it compiles. This is not required for
-#supplicant based implementation
-#CDEFINES += -DFEATURE_WLAN_TDLS_INTERNAL
 endif
 
 ifeq ($(CONFIG_PRIMA_WLAN_BTAMP),y)
@@ -653,11 +607,8 @@ ifeq ($(CONFIG_ENABLE_LINUX_REG), y)
 CDEFINES += -DCONFIG_ENABLE_LINUX_REG
 endif
 
-ifeq ($(MEASURE_ROAM_TIME_DELAY),1)
-CDEFINES += -DDEBUG_ROAM_DELAY
-endif
-
 CDEFINES += -DFEATURE_WLAN_CH_AVOID
+CDEFINES += -DWLAN_FEATURE_AP_HT40_24G
 
 # Some kernel include files are being moved.  Check to see if
 # the old version of the files are present
@@ -679,7 +630,3 @@ KBUILD_CPPFLAGS += $(CDEFINES)
 obj-$(CONFIG_PRIMA_WLAN) += $(MODNAME).o
 obj-$(CONFIG_PRONTO_WLAN) += $(MODNAME).o
 $(MODNAME)-y := $(OBJS)
-
-clean::
-	rm -f *.o *.ko *.mod.c *.mod.o *~ .*.cmd Module.symvers
-	rm -rf .tmp_versions
