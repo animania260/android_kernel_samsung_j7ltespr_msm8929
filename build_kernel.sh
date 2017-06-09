@@ -1,4 +1,4 @@
-#original 4.8
+#Samsung Included 4.8 toolchain
 #export PATH=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin:$PATH
 #export ARCH=arm
 #export CROSS_COMPILE=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin/arm-eabi-
@@ -11,10 +11,15 @@ BUILD_KERNEL_OUT=$(pwd)/out
 #export CCACHE_DIR=~/.ccache
 #/usr/bin/ccache -M 50G
 
-#UberTC 4.9
-export PATH=~/android/toolchains/arm-eabi-4.9/bin:$PATH
+#UberTC 5.3
+export PATH=~/android/toolchains/arm-eabi-5.3/bin:$PATH
 export ARCH=arm
-export CROSS_COMPILE=~/android/toolchains/arm-eabi-4.9/bin/arm-eabi-
+export CROSS_COMPILE=~/android/toolchains/arm-eabi-5.3/bin/arm-eabi-
+
+#UberTC 4.9
+#export PATH=~/android/toolchains/arm-eabi-4.9/bin:$PATH
+#export ARCH=arm
+#export CROSS_COMPILE=~/android/toolchains/arm-eabi-4.9/bin/arm-eabi-
 
 #KERNEL_ZIMG=$BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage
 #DTC=$BUILD_KERNEL_DIR/out/scripts/dtc/dtc
