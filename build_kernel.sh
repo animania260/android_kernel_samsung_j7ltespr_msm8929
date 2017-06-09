@@ -1,20 +1,20 @@
 #original 4.8
-export PATH=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin:$PATH
-export ARCH=arm
-export CROSS_COMPILE=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin/arm-eabi-
+#export PATH=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin:$PATH
+#export ARCH=arm
+#export CROSS_COMPILE=~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin/arm-eabi-
 
 BUILD_KERNEL_DIR=$(pwd)
 BUILD_KERNEL_OUT=$(pwd)/out
 
 #use ccache
-export USE_CCACHE=1
-export CCACHE_DIR=~/.ccache
-/usr/bin/ccache -M 50G
+#export USE_CCACHE=1
+#export CCACHE_DIR=~/.ccache
+#/usr/bin/ccache -M 50G
 
 #UberTC 4.9
-#export PATH=~/android/toolchains/arm-eabi-4.9/bin:$PATH
-#export ARCH=arm
-#export CROSS_COMPILE=~/android/toolchains/arm-eabi-4.9/bin/arm-eabi-
+export PATH=~/android/toolchains/arm-eabi-4.9/bin:$PATH
+export ARCH=arm
+export CROSS_COMPILE=~/android/toolchains/arm-eabi-4.9/bin/arm-eabi-
 
 #KERNEL_ZIMG=$BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage
 #DTC=$BUILD_KERNEL_DIR/out/scripts/dtc/dtc
@@ -25,9 +25,9 @@ export CCACHE_DIR=~/.ccache
 FUNC_BUILD_KERNEL()
 (
 #clean up
-make -C $(pwd) O=$(pwd)/out clean
-make -C $(pwd) O=$(pwd)/out mrproper
-make -C $(pwd) O=$(pwd)/out distclean
+#make -C $(pwd) O=$(pwd)/out clean
+#make -C $(pwd) O=$(pwd)/out mrproper
+#make -C $(pwd) O=$(pwd)/out distclean
 
 #Compile the kernel and dtimage
 echo "Build kernel"
