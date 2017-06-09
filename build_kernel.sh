@@ -45,6 +45,9 @@ echo "Create dt.img"
 tools/dtbTool -o out/arch/arm/boot/dt.img -s 2048 -p out/scripts/dtc/ out/arch/arm/boot/dts/
 
 echo "kernel and dtimage compilation completed successfully"
+echo "......."
+echo "make modules_install"
+make -C $(pwd) O=$(pwd)/out -j2 modules_install INSTALL_MOD_PATH=sohren_install INSTALL_MOD_STRIP=1
 )
 
 # MAIN FUNCTION
