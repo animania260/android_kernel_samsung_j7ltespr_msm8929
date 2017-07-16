@@ -1,0 +1,1 @@
+make -C $(pwd) O=$(pwd)/out j7ltespr_defconfig
