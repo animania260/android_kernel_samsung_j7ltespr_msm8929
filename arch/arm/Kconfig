@@ -1402,14 +1402,7 @@ config PERFMAP
 endmenu
 
 source "arch/arm/common/Kconfig"
-
-source "arch/arm/hotplug/alucard/Kconfig"
-
-source "arch/arm/hotplug/bricked/Kconfig"
-
-source "arch/arm/hotplug/intelliplug/Kconfig"
-
-source "arch/arm/hotplug/msmhotplug/Kconfig"
+source "arch/arm/hotplug/Kconfig"
 
 menu "Bus support"
 

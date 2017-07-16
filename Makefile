@@ -196,6 +196,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 #ARCH		?= $(SUBARCH)
 #CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
 ARCH		?= arm
+#CROSS_COMPILE	?= ~/android/j700p/J700PVPS1AQD1/kernelbuild/arm-eabi-4.8/bin/arm-eabi-
 CROSS_COMPILE	?= ~/android/toolchains/arm-eabi-5.3/bin/arm-eabi-
 
 # Architecture as present in compile.h
@@ -403,7 +404,7 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-CFLAGS_A53       = -mtune=cortex-a53 -mfpu=neon-vfpv4 -march=armv8-a+crc -funsafe-math-optimizations
+#CFLAGS_A53       = -mtune=cortex-a53 -mfpu=neon-vfpv4 -march=armv8-a+crc -funsafe-math-optimizations
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \

@@ -29,7 +29,7 @@
 #define DEF_LOAD_THRESH_DOWN		30
 #define DEF_LOAD_THRESH_UP		85
 #define DEF_SAMPLING_MS			80
-#define DEF_VOTE_THRESHOLD		3
+#define DEF_VOTE_THRESHOLD		5
 
 #define N_BIG_CPUS			4
 #define N_LITTLE_CPUS			4
